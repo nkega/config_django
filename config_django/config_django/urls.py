@@ -24,6 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('config_django_app.urls')),
 
+    #commande pour allauth
+    path('accounts/', include('allauth.urls')),
+
 ]
 
 if settings.DEBUG:

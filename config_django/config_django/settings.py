@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'allauth_ui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'config_django_app',
+
+    #django allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',  # Par exemple, pour Google OAuth2
+
+    "widget_tweaks",
+
 ]
 
 MIDDLEWARE = [
@@ -49,7 +59,64 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # Add the account middleware:
+    "allauth.account.middleware.AccountMiddleware",
 ]
+
+#django allauth
+from django.conf import settings
+
+ACCOUNT_ADAPTER = "allauth.account.adapter.DefaultAccountAdapter"
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+ACCOUNT_AUTHENTICATION_METHOD = "email" 
+ACCOUNT_CONFIRM_EMAIL_ON_GET =True
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = settings.LOGIN_URL
+
+ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = None
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 3
+ACCOUNT_EMAIL_REQUIRED =True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "[Site]"
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+ACCOUNT_RATE_LIMITS = {
+    # Note: Change '5/m' to your desired rate limits
+    'login_failed': '5/m',  # 5 failed login attempts per minute
+    'confirm_email': '1/h',  # 1 email confirmation attempt per hour
+}
+ACCOUNT_EMAIL_MAX_LENGTH = 254
+ACCOUNT_MAX_EMAIL_ADDRESSES = None
+
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = False
+ACCOUNT_LOGOUT_ON_GET =False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = False
+ACCOUNT_PREVENT_ENUMERATION =True
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = False
+ACCOUNT_SIGNUP_FORM_CLASS = None
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = True
+ACCOUNT_SIGNUP_REDIRECT_URL = settings.LOGIN_REDIRECT_URL
+ACCOUNT_TEMPLATE_EXTENSION = "html"
+ACCOUNT_USERNAME_BLACKLIST = ["admin", "administrateur", "administrator"]
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_EMAIL_FIELD = "email"
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_USERNAME_MIN_LENGTH =4
+ACCOUNT_USERNAME_REQUIRED =True
+ACCOUNT_USERNAME_VALIDATORS =None
+# ACCOUNT_USERNAME_VALIDATORS = 'some.module.validators.custom_username_validators'
+ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+## Graphing diagram of apps
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
+#c
+
 
 ROOT_URLCONF = 'config_django.urls'
 
@@ -64,10 +131,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'config_django.wsgi.application'
 
@@ -128,3 +199,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# methode d'envoi d'un email en django
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'njampouabnkegabrice@gmail.com' # Votre adresse email Gmail
+EMAIL_HOST_PASSWORD = 'kfsg ogyv ehiy zvyv' # Votre mot de passe Gmail
+
+# Autres paramètres liés aux e-mails
+DEFAULT_FROM_EMAIL = 'njampouabnkegabrice@gmail.com'
+SERVER_EMAIL = 'njampouabnkegabrice@gmail.com'
