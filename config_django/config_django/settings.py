@@ -207,7 +207,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'njampouabnkegabrice@gmail.com' # Votre adresse email Gmail
-EMAIL_HOST_PASSWORD = 'kfsg ogyv ehiy zvyv' # Votre mot de passe Gmail
+EMAIL_HOST_PASSWORD = '' # Votre mot de passe Gmail
 
 # Autres paramètres liés aux e-mails
 DEFAULT_FROM_EMAIL = 'njampouabnkegabrice@gmail.com'
